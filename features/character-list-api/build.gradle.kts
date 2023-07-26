@@ -1,32 +1,25 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kapt)
 }
 
 android {
-    namespace = "ru.multimodule.navigation_api"
+    namespace = "ru.multimodule.character_list_api"
     compileSdk = SdkVersions.COMPILE_SDK
 
     defaultConfig {
         minSdk = SdkVersions.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
-        debug {
-            isMinifyEnabled = true
-        }
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                // List additional ProGuard rules for the given build type here. By default,
-                // Android Studio creates and includes an empty rules file for you (located
-                // at the root directory of each module).
                 "proguard-rules.pro"
             )
         }
@@ -46,5 +39,6 @@ dependencies {
     implementation (libs.android.core)
     implementation (libs.appcompat)
     implementation (libs.material)
-
+    implementation (libs.dagger)
+    kapt(libs.dagger.compiler)
 }

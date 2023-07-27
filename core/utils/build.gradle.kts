@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.multimodule.character_list_impl"
+    namespace = "ru.multimodule.utils"
     compileSdk = SdkVersions.COMPILE_SDK
 
     defaultConfig {
@@ -30,9 +30,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-    buildFeatures{
-        viewBinding = true
     }
 }
 

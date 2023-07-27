@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.multimodule.character_list_impl"
+    namespace = "ru.multimodule.dagger"
     compileSdk = SdkVersions.COMPILE_SDK
 
     defaultConfig {
@@ -31,17 +31,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
-    buildFeatures{
-        viewBinding = true
-    }
 }
 
 dependencies {
 
-    implementation (libs.bundles.tests)
-    implementation (libs.android.core)
-    implementation (libs.appcompat)
-    implementation (libs.material)
     implementation (libs.dagger)
     kapt(libs.dagger.compiler)
 }

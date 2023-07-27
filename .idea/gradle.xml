@@ -13,13 +13,17 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/dagger" />
             <option value="$PROJECT_DIR$/core/database-api" />
             <option value="$PROJECT_DIR$/core/database-impl" />
             <option value="$PROJECT_DIR$/core/navigation-api" />
             <option value="$PROJECT_DIR$/core/navigation-impl" />
             <option value="$PROJECT_DIR$/core/network-api" />
             <option value="$PROJECT_DIR$/core/network-impl" />
+            <option value="$PROJECT_DIR$/core/utils" />
             <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/character-detail-api" />
+            <option value="$PROJECT_DIR$/features/character-detail-impl" />
             <option value="$PROJECT_DIR$/features/character-list-api" />
             <option value="$PROJECT_DIR$/features/character-list-impl" />
           </set>

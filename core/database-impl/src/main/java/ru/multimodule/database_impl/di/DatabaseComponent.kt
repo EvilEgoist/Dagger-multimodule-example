@@ -3,11 +3,14 @@ package ru.multimodule.database_impl.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import ru.multimodule.database_impl.CharactersDao
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [DaosModule::class, DatabaseModule::class])
 interface DatabaseComponent {
+
+    fun dao(): CharactersDao
 
     companion object {
 
@@ -15,32 +18,21 @@ interface DatabaseComponent {
         private var databaseComponent: DatabaseComponent? = null
 
         fun initAndGet(appContext: Context): DatabaseComponent? {
-            return when (databaseComponent){
-                null -> {
-                    synchronized(this){
-                        when (databaseComponent) {
-                            null -> {
-                                 databaseComponent = DaggerDatabaseComponent.builder()
-                                    .appContext(appContext)
-                                    .build()
-                            }
-                        }
-                        databaseComponent
+            if (databaseComponent == null) {
+                synchronized(this) {
+                    if (databaseComponent == null) {
+                        databaseComponent = DaggerDatabaseComponent.factory()
+                            .create(appContext)
                     }
                 }
-                else -> {
-                    databaseComponent
-                }
             }
+            return databaseComponent
         }
     }
 
-    @Component.Builder
-    interface Builder{
+    @Component.Factory
+    interface Factory {
 
-        @BindsInstance
-        fun appContext(appContext: Context): Builder
-
-        fun build(): DatabaseComponent
+        fun create(@BindsInstance appContext: Context): DatabaseComponent
     }
 }

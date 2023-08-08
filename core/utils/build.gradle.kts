@@ -35,10 +35,12 @@ android {
 
 dependencies {
 
+    implementation(libs.viewmodel.lifecycle)
     implementation (libs.bundles.tests)
     implementation (libs.android.core)
     implementation (libs.appcompat)
     implementation (libs.material)
+    implementation (libs.fragment)
     implementation (libs.dagger)
     kapt(libs.dagger.compiler)
 }

@@ -42,6 +42,9 @@ android {
 
 dependencies {
 
+    implementation (project(":features:character-detail-api"))
+    implementation (project(":features:character-list-api"))
+
     implementation (libs.bundles.tests)
     implementation (libs.android.core)
     implementation (libs.appcompat)

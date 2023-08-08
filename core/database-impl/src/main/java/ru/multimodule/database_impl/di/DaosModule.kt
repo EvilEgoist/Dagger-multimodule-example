@@ -9,7 +9,6 @@ import ru.multimodule.database_impl.RickAndMortyDatabase
 interface DaosModule {
 
     companion object {
-
         @Provides
         fun provideCharacterDao(database: RickAndMortyDatabase): CharactersDao {
             return database.charactersDao()

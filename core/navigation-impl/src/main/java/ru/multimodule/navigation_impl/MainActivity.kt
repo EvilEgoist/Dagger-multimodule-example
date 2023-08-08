@@ -1,4 +1,4 @@
-package ru.multimodule.app
+package ru.multimodule.navigation_impl
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kapt)
 }
 
 android {
@@ -34,8 +35,23 @@ android {
 
 dependencies {
 
+    implementation (project(":core:utils"))
+    implementation (project(":core:dagger"))
+    implementation (project(":core:navigation-api"))
+    implementation (project(":core:network-api"))
+    implementation (project(":core:network-impl"))
+    implementation (project(":core:database-api"))
+    implementation (project(":core:database-impl"))
+    implementation (project(":features:character-detail-api"))
+    implementation (project(":features:character-detail-impl"))
+    implementation (project(":features:character-list-api"))
+    implementation (project(":features:character-list-impl"))
+
     implementation (libs.bundles.tests)
     implementation (libs.android.core)
     implementation (libs.appcompat)
     implementation (libs.material)
+
+    implementation (libs.dagger)
+    kapt(libs.dagger.compiler)
 }

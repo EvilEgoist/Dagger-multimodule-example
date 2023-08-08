@@ -1,41 +1,107 @@
 package ru.multimodule.character_list_impl.presentation.view
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.launch
+import ru.multimodule.character_list_api.CharactersListNavigationApi
 import ru.multimodule.character_list_impl.R
+import ru.multimodule.character_list_impl.databinding.FragmentCharactersBinding
+import ru.multimodule.character_list_impl.di.component.CharactersListFeatureComponent
+import ru.multimodule.character_list_impl.domain.usecase.GetCharactersUseCase
+import ru.multimodule.character_list_impl.presentation.uistate.CharactersListUIState
+import ru.multimodule.character_list_impl.presentation.view.adapters.CharactersRVAdapter
+import ru.multimodule.character_list_impl.presentation.view.viewholders.CharactersListItemViewHolder
+import ru.multimodule.character_list_impl.presentation.view.viewholders.ViewHolderFactory
+import ru.multimodule.character_list_impl.presentation.view_models.CharactersViewModel
+import ru.multimodule.utils.fragment.BaseFragment
+import ru.multimodule.utils.viewmodels.viewModelCreator
+import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CharactersFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class CharactersFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class CharactersFragment : BaseFragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private var _binding: FragmentCharactersBinding? = null
+
+    private val binding
+        get() = _binding!!
+
+    @Inject
+    lateinit var getCharactersUseCase: GetCharactersUseCase
+
+    @Inject
+    lateinit var charactersListNavigationApi: CharactersListNavigationApi
+
+
+    override val viewModel: CharactersViewModel by viewModelCreator {
+        CharactersViewModel(
+            getCharactersUseCase
+        )
+    }
+
+    private val charactersAdapter: CharactersRVAdapter by lazy {
+        CharactersRVAdapter(
+            object : CharactersRVAdapter.Listener {
+                override fun onClickCharacter(holder: CharactersListItemViewHolder, characterId: Int) {
+                    charactersListNavigationApi.navigateToDetail(this@CharactersFragment, characterId)
+                }
+            },
+            ViewHolderFactory()
+        )
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        CharactersListFeatureComponent.charactersListFeatureComponent?.inject(this)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_characters, container, false)
+        _binding = FragmentCharactersBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews()
+        initObservers()
+    }
+
+    private fun initViews(){
+        with(binding){
+            charactersRV.apply {
+                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                adapter = charactersAdapter
+            }
+        }
+    }
+
+    private fun initObservers(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiStateFlow
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .collect { uiState ->
+                    with(uiState){
+                        if (isLoading) {
+
+                        }
+                        if (errorMsg.isNotEmpty()){
+
+                        }
+                        if (charactersList.isNotEmpty()){
+                            charactersAdapter.submitList(charactersList)
+                        }
+                    }
+                }
+        }
     }
 
     companion object {

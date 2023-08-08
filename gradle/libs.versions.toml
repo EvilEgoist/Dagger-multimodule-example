@@ -11,6 +11,7 @@ timber = "5.0.1"
 appcompat = "1.6.1"
 material = "1.9.0"
 constraint = "2.1.4"
+fragment = "1.5.7"
 
 #tests
 junit = "4.13.2"
@@ -28,6 +29,8 @@ dagger = "2.47"
 
 room = "2.5.2"
 
+glide = "4.15.1"
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle" }
@@ -41,17 +44,19 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [libraries]
 
-#core
-
+#android core
 android_core = { module = "androidx.core:core-ktx", version.ref = "kotlin" }
 
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
-
-lifecycle_runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle_runtime" }
-viewmodel_lifecycle = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle_runtime" }
-
 material = { module = "com.google.android.material:material", version.ref = "material" }
 constraint = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraint" }
+fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
+
+
+
+#lifecycle
+lifecycle_runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle_runtime" }
+viewmodel_lifecycle = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle_runtime" }
 
 #di
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
@@ -75,6 +80,9 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 room = { module = "androidx.room:room-runtime", version.ref = "room" }
 room_compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 
 [bundles]
 tests = ["junit", "espresso", "junit_ext"]

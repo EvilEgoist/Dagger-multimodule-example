@@ -1,11 +1,9 @@
 package ru.multimodule.character_list_impl.domain.usecase
 
+import ru.multimodule.character_list_impl.domain.model.CharactersCallResultWrapper
 import ru.multimodule.character_list_impl.domain.model.CharacterModel
-import ru.multimodule.character_list_impl.domain.repository.CharactersRepository
 
+interface GetCharactersUseCase {
 
-fun interface GetCharactersUseCase: () -> List<CharacterModel>
-
-fun getCharacters(repository: CharactersRepository): List<CharacterModel>{
-    return repository.getCharacters()
+    suspend fun getCharactersList(): CharactersCallResultWrapper<List<CharacterModel>>
 }

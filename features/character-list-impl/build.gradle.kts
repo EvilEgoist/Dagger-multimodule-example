@@ -38,10 +38,18 @@ android {
 
 dependencies {
 
+    implementation(project(":core:dagger"))
+    implementation(project(":core:utils"))
+    implementation(project(":core:network-api"))
+    implementation(project(":core:database-api"))
+    implementation(project(":features:character-list-api"))
+
     implementation (libs.bundles.tests)
     implementation (libs.android.core)
     implementation (libs.appcompat)
     implementation (libs.material)
+    implementation (libs.fragment)
     implementation (libs.dagger)
+    implementation(libs.glide)
     kapt(libs.dagger.compiler)
 }

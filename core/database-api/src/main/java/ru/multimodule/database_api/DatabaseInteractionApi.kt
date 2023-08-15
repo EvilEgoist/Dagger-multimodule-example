@@ -8,5 +8,5 @@ interface DatabaseInteractionApi {
 
     fun insertCharacters(characterList: List<CharacterEntity>)
 
-    fun getSingleCharacter(id: String): CharacterEntity
+    fun getSingleCharacter(id: Int): CharacterEntity
 }

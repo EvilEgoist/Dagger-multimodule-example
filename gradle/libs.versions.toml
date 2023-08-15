@@ -31,6 +31,8 @@ room = "2.5.2"
 
 glide = "4.15.1"
 
+swipe_refresh = "1.1.0"
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle" }
@@ -51,6 +53,7 @@ appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat"
 material = { module = "com.google.android.material:material", version.ref = "material" }
 constraint = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraint" }
 fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
+swipe_refresh = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swipe_refresh" }
 
 
 

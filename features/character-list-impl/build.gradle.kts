@@ -25,11 +25,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
     buildFeatures{
         viewBinding = true
@@ -45,6 +45,7 @@ dependencies {
     implementation(project(":features:character-list-api"))
 
     implementation (libs.bundles.tests)
+    implementation (libs.swipe.refresh)
     implementation (libs.android.core)
     implementation (libs.appcompat)
     implementation (libs.material)

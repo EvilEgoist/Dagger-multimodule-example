@@ -12,6 +12,7 @@ import ru.multimodule.network_impl.di.NetworkComponent
 
 object FeatureInjectorProxy {
 
+    var isFirstAppLaunch = true
     fun initChararactersListFeatureDi(appContext: Context){
         CharactersListFeatureComponent.initAndGet(
             DaggerCharactersFeatureDependenciesComponent.builder()

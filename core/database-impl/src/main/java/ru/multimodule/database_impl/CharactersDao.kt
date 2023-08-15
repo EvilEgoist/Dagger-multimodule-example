@@ -18,7 +18,7 @@ interface CharactersDao: DatabaseInteractionApi {
     @Query(
         "SELECT * FROM characters WHERE id = :id"
     )
-    override fun getSingleCharacter(id: String): CharacterEntity
+    override fun getSingleCharacter(id: Int): CharacterEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override fun insertCharacters(characterList: List<CharacterEntity>)

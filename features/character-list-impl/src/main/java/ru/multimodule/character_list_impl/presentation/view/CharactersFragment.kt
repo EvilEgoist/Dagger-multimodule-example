@@ -2,13 +2,18 @@ package ru.multimodule.character_list_impl.presentation.view
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.launch
 import ru.multimodule.character_list_api.CharactersListNavigationApi
 import ru.multimodule.character_list_impl.R
@@ -38,18 +43,27 @@ class CharactersFragment : BaseFragment() {
     @Inject
     lateinit var charactersListNavigationApi: CharactersListNavigationApi
 
-
     override val viewModel: CharactersViewModel by viewModelCreator {
         CharactersViewModel(
             getCharactersUseCase
         )
     }
 
+    private val swipeRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        viewModel.getCharacters()
+    }
+
     private val charactersAdapter: CharactersRVAdapter by lazy {
         CharactersRVAdapter(
             object : CharactersRVAdapter.Listener {
-                override fun onClickCharacter(holder: CharactersListItemViewHolder, characterId: Int) {
-                    charactersListNavigationApi.navigateToDetail(this@CharactersFragment, characterId)
+                override fun onClickCharacter(
+                    holder: CharactersListItemViewHolder,
+                    characterId: Int
+                ) {
+                    charactersListNavigationApi.navigateToDetail(
+                        this@CharactersFragment,
+                        characterId
+                    )
                 }
             },
             ViewHolderFactory()
@@ -75,28 +89,43 @@ class CharactersFragment : BaseFragment() {
         initObservers()
     }
 
-    private fun initViews(){
-        with(binding){
-            charactersRV.apply {
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                adapter = charactersAdapter
+    override fun onResume() {
+        super.onResume()
+        with(binding) {
+            swipeRefreshLayout.post {
+                swipeRefreshLayout.isRefreshing = true
+                swipeRefreshListener.onRefresh()
             }
         }
     }
 
-    private fun initObservers(){
+    private fun initViews() {
+        with(binding) {
+            charactersRV.apply {
+                layoutManager = GridLayoutManager(this.context, 2)
+                adapter = charactersAdapter
+            }
+            swipeRefreshLayout.setOnRefreshListener {
+                viewModel.getCharacters()
+            }
+        }
+    }
+
+    private fun initObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiStateFlow
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collect { uiState ->
-                    with(uiState){
+                    with(uiState) {
                         if (isLoading) {
-
+                            binding.swipeRefreshLayout.isRefreshing = true
                         }
-                        if (errorMsg.isNotEmpty()){
-
+                        if (errorMsg.isNotEmpty()) {
+                            binding.swipeRefreshLayout.isRefreshing = false
+                            Log.e(TAG, "UiState is Error because of $errorMsg")
                         }
-                        if (charactersList.isNotEmpty()){
+                        if (charactersList.isNotEmpty()) {
+                            binding.swipeRefreshLayout.isRefreshing = false
                             charactersAdapter.submitList(charactersList)
                         }
                     }
@@ -104,23 +133,21 @@ class CharactersFragment : BaseFragment() {
         }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CharactersFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CharactersFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onPause() {
+        if (isRemoving) {
+            if (charactersListNavigationApi.isClosed(this)) {
+                CharactersListFeatureComponent.reset()
             }
+        }
+        super.onPause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    companion object {
+        private val TAG = CharactersFragment::class.java.simpleName
     }
 }

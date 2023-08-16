@@ -47,6 +47,7 @@ dependencies {
     implementation (libs.bundles.tests)
     implementation (libs.swipe.refresh)
     implementation (libs.android.core)
+    implementation (libs.recyclerview)
     implementation (libs.appcompat)
     implementation (libs.material)
     implementation (libs.fragment)

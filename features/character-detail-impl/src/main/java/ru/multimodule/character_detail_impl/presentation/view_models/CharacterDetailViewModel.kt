@@ -18,7 +18,7 @@ class CharacterDetailViewModel(
     val characterDetailUiStateFlow = _characterDetailUiStateFlow.asStateFlow()
 
     fun getCharacter(characterId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
                 _characterDetailUiStateFlow.value = CharacterDetailUIState(isLoading = true)
                 _characterDetailUiStateFlow.value = CharacterDetailUIState(

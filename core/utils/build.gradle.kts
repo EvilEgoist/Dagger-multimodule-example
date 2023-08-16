@@ -42,5 +42,6 @@ dependencies {
     implementation (libs.material)
     implementation (libs.fragment)
     implementation (libs.dagger)
+    implementation (libs.glide)
     kapt(libs.dagger.compiler)
 }

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/characterCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="@dimen/padding_small_8"
     app:cardCornerRadius="@dimen/padding_small_8"
     android:layout_marginTop="@dimen/padding_medium_16"
-    android:layout_marginHorizontal="@dimen/padding_medium_16"
-    android:id="@+id/characterCardView">
+    android:layout_marginHorizontal="@dimen/padding_medium_16">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/characterConstraint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"

@@ -12,6 +12,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.launch
@@ -93,7 +94,6 @@ class CharactersFragment : BaseFragment() {
         super.onResume()
         with(binding) {
             swipeRefreshLayout.post {
-                swipeRefreshLayout.isRefreshing = true
                 swipeRefreshListener.onRefresh()
             }
         }
@@ -102,8 +102,9 @@ class CharactersFragment : BaseFragment() {
     private fun initViews() {
         with(binding) {
             charactersRV.apply {
-                layoutManager = GridLayoutManager(this.context, 2)
+                layoutManager = GridLayoutManager(requireContext(), 2)
                 adapter = charactersAdapter
+                adapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
             }
             swipeRefreshLayout.setOnRefreshListener {
                 viewModel.getCharacters()

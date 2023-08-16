@@ -21,6 +21,7 @@ import ru.multimodule.character_detail_impl.di.component.CharacterDetailFeatureC
 import ru.multimodule.character_detail_impl.domain.model.CharacterDetailModel
 import ru.multimodule.character_detail_impl.domain.usecase.GetCharacterDetailUseCase
 import ru.multimodule.character_detail_impl.presentation.view_models.CharacterDetailViewModel
+import ru.multimodule.utils.common.setImageFromUrl
 import ru.multimodule.utils.fragment.BaseFragment
 import ru.multimodule.utils.viewmodels.BaseViewModel
 import ru.multimodule.utils.viewmodels.viewModelCreator
@@ -110,11 +111,7 @@ class CharacterDetailFragment : BaseFragment() {
 
     private fun setUpViews(characterDetail: CharacterDetailModel) {
         with(binding) {
-            characterDetailImage.apply {
-                Glide.with(this)
-                    .load(characterDetail.image)
-                    .into(this)
-            }
+            characterDetailImage?.setImageFromUrl(characterDetail.image)
             characterNameTV.text = characterDetail.name
             addChipsDetailInfo(characterDetail)
         }
